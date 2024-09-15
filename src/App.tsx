@@ -1,12 +1,25 @@
 import React from "react";
+import {FloorSelector} from './FloorSelector';	
 import { MapView, useMapData, useMap, Label } from "@mappedin/react-sdk";
 import "@mappedin/react-sdk/lib/esm/index.css";
 
 function MyCustomComponent() {
 	const { mapView, mapData } = useMap();
 
+	// change map space to gray when hovered
+	mapData.getByType('space').forEach(space => {
+		mapView.updateState(space, {
+			interactive: true,
+			hoverColor: "#c1c0bf",
+		});
+	  });
+
+
+	// path finder
 	mapView.on("click", async (event) => {
-		if (event.models.length > 0) {
+		mapView.Paths.removeAll();
+		
+		/* if (event.models.length > 0) {
 			//If a 3D Model was clicked on, remove it.
 			mapView.Models.remove(event.models[0]);
 		} else {
@@ -22,6 +35,25 @@ function MyCustomComponent() {
 				}
 			);
 		}
+		*/
+		const clickedLocation = event.coordinate;
+	const destination = mapData.getByType('space').find(s => s.name === '123');
+ 
+		// If the destination is found, navigate to it.
+		if (destination) {
+			//Ensure that directions could be generated (user clicked on a navigable space).
+			const directions = mapView.getDirections(clickedLocation, destination);
+
+			if (directions) {
+				// Navigate from the clicked location to the gymnasium.
+				mapView.Navigation.draw(directions, {
+					pathOptions: {
+						nearRadius: 1,
+						farRadius: 1,
+					},
+				});
+			}
+		}
 	});
 
 	return mapData.getByType("space").map((space) => {
@@ -33,9 +65,9 @@ export default function App() {
 	// See Demo API key Terms and Conditions
 	// https://developer.mappedin.com/v6/demo-keys-and-maps/
 	const { isLoading, error, mapData } = useMapData({
-		key: "mik_yeBk0Vf0nNJtpesfu560e07e5",
-		secret: "mis_2g9ST8ZcSFb5R9fPnsvYhrX3RyRwPtDGbMGweCYKEq385431022",
-		mapId: "65c0ff7430b94e3fabd5bb8c",
+		key: "mik_07gS7hNEnStLQxR1b4f5c0723",
+		secret: "mis_ecV58sZM5qwtDTtFXr6pDdZ4MQzn3N2WXsWiJjgiP5v8ef51071",
+		mapId: "66e5a8f7af770b000b90805d",
 	});
 
 	if (isLoading) {
@@ -48,10 +80,9 @@ export default function App() {
 
 	return mapData ? (
 		<MapView mapData={mapData}>
-			<div>
-				<MyCustomComponent />
-			</div>
-			<div></div>
+			<MyCustomComponent />
+			<FloorSelector/>
 		</MapView>
+					
 	) : null;
 }
