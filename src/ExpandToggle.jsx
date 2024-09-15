@@ -1,5 +1,5 @@
 import { useMap } from "@mappedin/react-sdk";
-
+import "./ExpandToggle.css";
 export default function ExpandToggle() {
   const { mapData, mapView } = useMap();
 
@@ -15,7 +15,7 @@ export default function ExpandToggle() {
         padding: "10px",
       }}
     >
-      <button onClick={(e) => {
+      <button id="expand-toggle" onClick={(e) => {
           mapView.expand();
         }}>Expand
       </button>

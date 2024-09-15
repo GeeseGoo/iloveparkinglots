@@ -1,4 +1,5 @@
 import { useMap } from "@mappedin/react-sdk";
+import "./FloorSelector.css";
 
 export default function FloorSelector() {
   const { mapData, mapView } = useMap();
@@ -16,7 +17,7 @@ export default function FloorSelector() {
         borderRadius: "5px",
       }}
     >
-      <select
+      <select id="floor-selector"
         defaultValue={mapView.currentFloor.id}
         onChange={(e) => {
           mapView.setFloor(e.target.value);

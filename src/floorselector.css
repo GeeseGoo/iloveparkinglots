@@ -1,0 +1,11 @@
+#floor-selector {
+    color: white;
+    background: #313131;
+    padding: 4px;
+    border-radius: 10%;
+    height: 42px;
+    width: 100 px;
+    font: sans-serif;
+    font-size: 1.25 rem;
+    font-style: bold;
+}

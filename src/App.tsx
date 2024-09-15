@@ -7,6 +7,8 @@ import ExpandToggle from "./ExpandToggle";
 import './App.css';
 import StatusBar from './StatusBar';
 import './StatusBar.css';
+import './FloorSelector.css';
+import "./ExpandToggle.css";
 
 function MyCustomComponent() {
 	const { mapView, mapData } = useMap();
@@ -106,10 +108,14 @@ export default function App() {
 	return mapData ? (
 		<MapView mapData={mapData}>
 			<div>
+				<Text />
+				<StatusBar />
+
 				<MyCustomComponent />
 				<Friends/>
+				<ExpandToggle />
+				<FloorSelector />
 			</div>
-			<div></div>
 		</MapView>
 	) : null;
 }
