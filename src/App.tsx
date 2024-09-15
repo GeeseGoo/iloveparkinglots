@@ -1,6 +1,7 @@
 import React from "react";
 import { MapView, useMapData, useMap, Label } from "@mappedin/react-sdk";
 import "@mappedin/react-sdk/lib/esm/index.css";
+import Friends from './Friends';
 
 function MyCustomComponent() {
 	const { mapView, mapData } = useMap();
@@ -50,6 +51,7 @@ export default function App() {
 		<MapView mapData={mapData}>
 			<div>
 				<MyCustomComponent />
+				<Friends/>
 			</div>
 			<div></div>
 		</MapView>

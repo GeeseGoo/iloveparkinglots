@@ -1,0 +1,33 @@
+.input-wrapper {
+    background-color: white;
+    position: relative;
+    width: 100%; /* of its parent ????*/
+    border-radius: 10px;
+    height: 2.5rem;
+    padding: 0 15px;
+    box-shadow: 0px 0px 8px #ddd;
+    display: flex; 
+    align-items: center;
+    z-index: 2;
+    margin-bottom: 10px;
+}
+
+/* SEARCH BAR POS RELATIVE TO CONTAINER*/
+input {
+    background-color: white;
+    border: none;
+    height: 100%;
+    width: 100%;
+    margin-left: 5px;
+    font: 'Inter';
+    font-size: 1.25rem;
+}
+
+input:focus{
+    outline: none;
+}
+
+#search-icon {
+    color: royalblue;
+    margin-right: 10px;
+}
