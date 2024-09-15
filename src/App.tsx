@@ -4,6 +4,9 @@ import "@mappedin/react-sdk/lib/esm/index.css";
 import Friends from "./Friends";
 import FloorSelector from "./FloorSelector";
 import ExpandToggle from "./ExpandToggle";
+import './App.css';
+import StatusBar from './StatusBar';
+import './StatusBar.css';
 
 function MyCustomComponent() {
 	const { mapView, mapData } = useMap();
@@ -77,6 +80,12 @@ function MyCustomComponent() {
 	});
 }
 
+function Text() {
+	return (
+		<h1 className="h1">HELP, we're locked <br></br>in the DP basement!</h1>
+	);
+}
+
 export default function App() {
 	// See Demo API key Terms and Conditions
 	// https://developer.mappedin.com/v6/demo-keys-and-maps/
@@ -96,10 +105,11 @@ export default function App() {
 
 	return mapData ? (
 		<MapView mapData={mapData}>
-			<MyCustomComponent />
-			<Friends />
-			<FloorSelector />
-			<ExpandToggle />
+			<div>
+				<MyCustomComponent />
+				<Friends/>
+			</div>
+			<div></div>
 		</MapView>
 	) : null;
 }
