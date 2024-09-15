@@ -1,26 +1,14 @@
 import React from "react";
-import {FloorSelector} from './FloorSelector';	
 import { MapView, useMapData, useMap, Label } from "@mappedin/react-sdk";
 import "@mappedin/react-sdk/lib/esm/index.css";
-import Friends from './Friends';
+import Friends from "./Friends";
+import FloorSelector from "./FloorSelector";
 
 function MyCustomComponent() {
 	const { mapView, mapData } = useMap();
 
-	// change map space to gray when hovered
-	mapData.getByType('space').forEach(space => {
-		mapView.updateState(space, {
-			interactive: true,
-			hoverColor: "#c1c0bf",
-		});
-	  });
-
-
-	// path finder
 	mapView.on("click", async (event) => {
-		mapView.Paths.removeAll();
-		
-		/* if (event.models.length > 0) {
+		if (event.models.length > 0) {
 			//If a 3D Model was clicked on, remove it.
 			mapView.Models.remove(event.models[0]);
 		} else {
@@ -36,25 +24,6 @@ function MyCustomComponent() {
 				}
 			);
 		}
-		*/
-		const clickedLocation = event.coordinate;
-	const destination = mapData.getByType('space').find(s => s.name === '123');
- 
-		// If the destination is found, navigate to it.
-		if (destination) {
-			//Ensure that directions could be generated (user clicked on a navigable space).
-			const directions = mapView.getDirections(clickedLocation, destination);
-
-			if (directions) {
-				// Navigate from the clicked location to the gymnasium.
-				mapView.Navigation.draw(directions, {
-					pathOptions: {
-						nearRadius: 1,
-						farRadius: 1,
-					},
-				});
-			}
-		}
 	});
 
 	return mapData.getByType("space").map((space) => {
@@ -66,8 +35,8 @@ export default function App() {
 	// See Demo API key Terms and Conditions
 	// https://developer.mappedin.com/v6/demo-keys-and-maps/
 	const { isLoading, error, mapData } = useMapData({
-		key: "mik_07gS7hNEnStLQxR1b4f5c0723",
-		secret: "mis_ecV58sZM5qwtDTtFXr6pDdZ4MQzn3N2WXsWiJjgiP5v8ef51071",
+		key: "mik_S9RVRcel8TAvEvWjK52430765",
+		secret: "mis_8KrjxtFflkt8oP91xHCdWBbPq64ajPQSTSfvfysqPJJ973d10c2",
 		mapId: "66e5a8f7af770b000b90805d",
 	});
 
@@ -81,14 +50,9 @@ export default function App() {
 
 	return mapData ? (
 		<MapView mapData={mapData}>
-			<div>
-				<MyCustomComponent />
-				<Friends/>
-			</div>
-			<div></div>
 			<MyCustomComponent />
-			<FloorSelector/>
+			<Friends />
+			<FloorSelector />
 		</MapView>
-					
 	) : null;
 }
