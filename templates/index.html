@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management System</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1, h2 { color: #333; }
+        input, button { margin: 5px 0; padding: 5px; }
+        #userList, #friendList { list-style-type: none; padding: 0; }
+        #userList li, #friendList li { margin: 5px 0; padding: 5px; background-color: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>User Management System</h1>
+
+    <h2>Add User</h2>
+    <input type="text" id="newUsername" placeholder="Enter username">
+    <button onclick="addUser()">Add User</button>
+
+    <h2>Remove User</h2>
+    <input type="text" id="removeUsername" placeholder="Enter username">
+    <button onclick="removeUser()">Remove User</button>
+
+    <h2>Add Friend</h2>
+    <input type="text" id="user1" placeholder="User 1 username">
+    <input type="text" id="user2" placeholder="User 2 username">
+    <button onclick="addFriend()">Add Friend</button>
+
+    <h2>Remove Friend</h2>
+    <input type="text" id="unfriendUser1" placeholder="User 1 username">
+    <input type="text" id="unfriendUser2" placeholder="User 2 username">
+    <button onclick="removeFriend()">Remove Friend</button>
+
+    <h2>User List</h2>
+    <ul id="userList"></ul>
+
+    <h2>Get Friends</h2>
+    <input type="text" id="getFriendsUsername" placeholder="Enter username">
+    <button onclick="getFriends()">Get Friends</button>
+    <ul id="friendList"></ul>
+
+    <script>
+        function addUser() {
+            const username = $('#newUsername').val();
+            $.ajax({
+                url: '/add_user',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ user_username: username }),
+                success: function(response) {
+                    alert('User added successfully');
+                    loadUsers();
+                },
+                error: function(xhr) {
+                    alert('Error: ' + xhr.responseJSON.error);
+                }
+            });
+        }
+
+        function removeUser() {
+            const username = $('#removeUsername').val();
+            $.ajax({
+                url: '/remove_user',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ user_username: username }),
+                success: function(response) {
+                    alert('User removed successfully');
+                    loadUsers();
+                },
+                error: function(xhr) {
+                    alert('Error: ' + xhr.responseJSON.error);
+                }
+            });
+        }
+
+        function addFriend() {
+            const user1 = $('#user1').val();
+            const user2 = $('#user2').val();
+            $.ajax({
+                url: '/friend',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ user_username: user1, friend_username: user2 }),
+                success: function(response) {
+                    alert('Friend added successfully');
+                },
+                error: function(xhr) {
+                    alert('Error: ' + xhr.responseJSON.error);
+                }
+            });
+        }
+
+        function removeFriend() {
+            const user1 = $('#unfriendUser1').val();
+            const user2 = $('#unfriendUser2').val();
+            $.ajax({
+                url: '/unfriend',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ user_username: user1, friend_username: user2 }),
+                success: function(response) {
+                    alert('Friend removed successfully');
+                },
+                error: function(xhr) {
+                    alert('Error: ' + xhr.responseJSON.error);
+                }
+            });
+        }
+
+        function getFriends() {
+            const username = $('#getFriendsUsername').val();
+            $.ajax({
+                url: '/friendships/' + username,
+                method: 'GET',
+                success: function(response) {
+                    $('#friendList').empty();
+                    response.friends.forEach(function(friend) {
+                        $('#friendList').append('<li>' + friend + '</li>');
+                    });
+                    if (response.friends.length === 0) {
+                        $('#friendList').append('<li>' + 'you have no friends' + '</li>');
+                        }
+                },
+                error: function(xhr) {
+                    alert('Error: ' + xhr.responseJSON.error);
+                }
+            });
+        }
+
+        function loadUsers() {
+            $.ajax({
+                url: '/users',
+                method: 'GET',
+                success: function(response) {
+                    $('#userList').empty();
+                    response.forEach(function(user) {
+                        $('#userList').append('<li>' + user.username + '</li>');
+                    });
+                },
+                error: function(xhr) {
+                    alert('Error loading users');
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            loadUsers();
+        });
+    </script>
+</body>
+</html>
